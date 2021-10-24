@@ -23,20 +23,20 @@ public class CopyrightController {
         this.copyrightService = copyrightService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/") //получить весь список
     public List<CopyrightDto> getAll(){
         return copyrightService.getAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id:[\\d]+}")
+    @GetMapping("/{id:[\\d]+}") // получить права по id
     public CopyrightDto get(@PathVariable(ID) long id) {
         var copyright = copyrightService.getById(id);
         return convertToDto(copyright);
     }
 
-    @GetMapping("/getByCompany/{id:[\\d]+}")
+    @GetMapping("/getByCompany/{id:[\\d]+}") // получить права принадлежащей компании(id)
     public List<CopyrightDto> getByCompany(@PathVariable(ID) long id) {
 
         return copyrightService.getByCompanyId(id).stream()
@@ -45,18 +45,18 @@ public class CopyrightController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("/") // сохранить/обновить(если передается id)
     public CopyrightDto save(@RequestBody CreateCopyrightRequest request) {
         return convertToDto(copyrightService.save(request));
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/") //удалить права по id
     public void delete(@RequestParam(value="id") Integer id){
         copyrightService.deleteById(id);
     }
 
 
-    @GetMapping("/getByNameTitlePeriod")
+    @GetMapping("/getByNameTitlePeriod") //получить права песни за период
     public List<CopyrightDto> getByNameTitlePeriod(@RequestParam(value="name") String name,
                                                    @RequestParam(value="title") String title,
                                                    @RequestParam(value="startDate") String startDate,
@@ -67,7 +67,7 @@ public class CopyrightController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/getRoyalty")
+    @GetMapping("/getRoyalty") // получить цену прав по исполнителю названию и дате
     public String getRoyaltyBySong(@RequestParam(value="name") String name,
                                    @RequestParam(value="title") String title,
                                    @RequestParam(value="currentDate") String currentDate){
