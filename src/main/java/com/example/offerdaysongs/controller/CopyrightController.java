@@ -71,14 +71,8 @@ public class CopyrightController {
     public String getRoyaltyBySong(@RequestParam(value="name") String name,
                                    @RequestParam(value="title") String title,
                                    @RequestParam(value="currentDate") String currentDate){
-        List<Copyright> copyrightList = copyrightService.getRoyaltyBySong(currentDate,title,name);
-        long royalty=0;
-        for (Copyright copyright:
-             copyrightList) {
-            royalty+=copyright.getRoyalty();
-        }
 
-        return "Стоимость прав на песню составит - " + royalty;
+        return "Стоимость прав на песню составит - " + copyrightService.getRoyaltyBySong(currentDate,title,name);
     }
 
 

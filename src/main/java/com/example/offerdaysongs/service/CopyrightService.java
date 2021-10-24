@@ -40,9 +40,16 @@ public class CopyrightService {
         return copyrightRepository.getById(id);
     }
 
-    public void deleteById(long id)
+    public boolean deleteById(long id)
     {
-         copyrightRepository.deleteById(id);
+        boolean isOk;
+        try {
+            copyrightRepository.deleteById(id);
+            isOk=true;
+        } catch (Exception e){
+            isOk=false;
+        }
+        return  isOk;
     }
 
     @Transactional
@@ -104,8 +111,15 @@ public class CopyrightService {
                                                                   title,name);
     }
 
-    public  List<Copyright> getRoyaltyBySong(String currentDate, String title, String name) {
+    public  long getRoyaltyBySong(String currentDate, String title, String name) {
 
-        return copyrightRepository.findCopyrightBySongAndDate(currentDate,title,name);
+        List<Copyright> copyrightList = copyrightRepository.findCopyrightBySongAndDate(currentDate,title,name);
+        long royalty=0;
+        for (Copyright copyright:
+                copyrightList) {
+            royalty+=copyright.getRoyalty();
+        }
+
+        return royalty;
     }
 }
